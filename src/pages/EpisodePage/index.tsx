@@ -1,1 +1,1 @@
-export {EpisodePage} from './EpisodePage';
+export {EpisodePageContainer} from './EpisodePageContainer';

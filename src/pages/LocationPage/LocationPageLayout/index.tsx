@@ -1,0 +1,1 @@
+export {LocationPageLayout} from './LocationPageLayout';

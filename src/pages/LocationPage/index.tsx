@@ -1,1 +1,1 @@
-export {LocationPage} from './LocationPage';
+export {LocationPageContainer} from './LocationPageContainer';

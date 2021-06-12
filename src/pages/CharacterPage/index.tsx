@@ -1,1 +1,1 @@
-export {CharacterPage} from './CharacterPage';
+export {CharacterPageContainer} from './CharacterPageContainer';

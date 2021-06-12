@@ -1,4 +1,5 @@
 import React, {ReactElement} from "react";
+import {useHistory} from "react-router-dom";
 import {useQuery} from "react-query";
 import {makeStyles, createStyles, Theme} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -30,6 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function MainPage(): ReactElement {
   const classes = useStyles();
+  const history = useHistory();
 
   const {isLoading, error, data} = useQuery('characters', () =>
     fetch('https://rickandmortyapi.com/api/character').then(res =>
@@ -45,37 +47,43 @@ function MainPage(): ReactElement {
     return <div>An error has occurred: + {error}</div>
   }
 
-  console.log(data)
+  const openCharacterPageHandler = (id:number):void => {
+    history.push(`/character/${id}`);
+  }
+
+  console.log('mainData',data)
 
   return (
-    <Container maxWidth="lg">
-      <Grid container spacing={3}>
-        {data.results.map((character: any) => {
-          return (
-            <Grid item lg={3} md={4} sm={6} xs={12} >
-              <Card
-                className={classes.card}
-                onClick={() => console.log('click')}
-              >
-                <CardActionArea>
-                  <CardMedia
-                    className={classes.media}
-                    image={character.image}
-                    title={character.name}
-                  />
+    <>
+      <Container maxWidth="lg">
+        <Grid container spacing={3}>
+          {data.results.map((character: any, index: number) => {
+            return (
+              <Grid item lg={3} md={4} sm={6} xs={12} key={`${character.id}-${index}`}>
+                <Card
+                  className={classes.card}
+                  onClick={() => openCharacterPageHandler(character.id)}
+                >
+                  <CardActionArea>
+                    <CardMedia
+                      className={classes.media}
+                      image={character.image}
+                      title={character.name}
+                    />
 
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {character.name}
-                    </Typography>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Grid>
-          )
-        })}
-      </Grid>
-    </Container>
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {character.name}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Grid>
+            )
+          })}
+        </Grid>
+      </Container>
+    </>
   );
 }
 

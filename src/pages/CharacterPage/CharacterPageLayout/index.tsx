@@ -1,0 +1,1 @@
+export {CharacterPageLayout} from './CharacterPageLayout';
