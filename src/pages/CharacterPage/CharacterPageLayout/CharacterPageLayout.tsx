@@ -1,4 +1,4 @@
-import React, {ReactElement} from "react";
+import React, {ReactElement, ReactNode} from "react";
 import {makeStyles, createStyles, Theme} from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from "@material-ui/core/Typography";
@@ -16,14 +16,12 @@ const primary = blue[100];
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
-      // justifyContent: 'center',
-      // display: 'flex',
-      // flexDirection:'column',
       marginTop: 40,
       marginBottom: 20,
       backgroundColor: primary,
       borderRadius: '0.5rem',
       padding: 20,
+      minHeight: 550,
     },
     avatar: {
       width: theme.spacing(20),
@@ -46,7 +44,6 @@ const useStyles = makeStyles((theme: Theme) =>
     link: {
       fontSize: 20,
     }
-
   }),
 );
 
@@ -54,9 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface CharacterPageLayoutProps {
   data: any,
   episodes: any,
-
   openEpisode(id: number): void,
-
   openLocation(url: string): void,
 }
 
@@ -64,18 +59,27 @@ function CharacterPageLayout(props: CharacterPageLayoutProps): ReactElement {
   const classes = useStyles();
   const {data, openLocation} = props;
 
-  const getEpisodes = (): ReactElement => {
+  const getEpisodes = (): ReactNode => {
     const {openEpisode, episodes} = props;
 
     if (!Object.keys(episodes).length) return <ListItemText>Отсутствуют</ListItemText>
 
-    return episodes?.map((episode: any) => {
+    if (!Array.isArray(episodes)) {
+      const episode = episodes;
       return (
         <ListItem button key={episode.id} onClick={() => openEpisode(episode.id)}>
           <ListItemText primary={episode.name}/>
         </ListItem>
       )
-    })
+    } else {
+       return episodes.map((episode: any) => {
+        return (
+          <ListItem button key={episode.id} onClick={() => openEpisode(episode.id)}>
+            <ListItemText primary={episode.name}/>
+          </ListItem>
+        )
+      })
+    }
   }
 
 
@@ -130,7 +134,7 @@ function CharacterPageLayout(props: CharacterPageLayoutProps): ReactElement {
           <Link
             component="button"
             color="primary"
-            onClick={() => openLocation(data.location.url)}
+            onClick={() => openLocation(data.origin.url)}
             className={classes.link}
           >
             {data.origin.name}

@@ -2,11 +2,11 @@ import React, {useState} from "react";
 import {LocationPageLayout} from "./LocationPageLayout";
 import {useQuery} from "react-query";
 import {getIdUrl} from "../../services/utils";
-import {useHistory} from "react-router-dom";
-
+import {useHistory, useParams} from "react-router-dom";
+import {ErrorComponent} from "../../components/Error";
 
 function LocationPageContainer(props:any ) {
-  const {locationId} = props.match.params;
+  const {locationId} = useParams<{ locationId: string }>();
   const history = useHistory();
   const [residents, setResidents] = useState<any>({})
 
@@ -32,15 +32,10 @@ function LocationPageContainer(props:any ) {
     history.push(`/character/${id}`);
   }
 
-  if (isLoading) {
-    return <div>'Loading...'</div>
-  }
+  if (isLoading) return <LocationPageContainer/>;
 
-  if (error) {
-    return <div>An error has occurred: + {error}</div>
-  }
+  if (error) return <ErrorComponent/>;
 
-  console.log('locationData', data)
 
   return (
     <LocationPageLayout

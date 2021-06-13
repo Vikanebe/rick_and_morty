@@ -1,4 +1,4 @@
-import React, {ReactElement} from 'react';
+import React, {ReactElement, ReactNode} from 'react';
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
@@ -15,9 +15,6 @@ const primary = blue[100];
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
-      // justifyContent: 'center',
-      // display: 'flex',
-      // flexDirection:'column',
       marginTop: 40,
       marginBottom: 20,
       backgroundColor: primary,
@@ -46,28 +43,37 @@ const useStyles = makeStyles((theme: Theme) =>
 interface EpisodePageLayoutProps {
   data: any,
   characters: any,
-  openCharacter(id:number): void,
+  openCharacter(id: number): void,
 }
 
 function EpisodePageLayout(props: EpisodePageLayoutProps): ReactElement {
   const classes = useStyles();
   const {data} = props;
 
-  const getCharacters = (): ReactElement => {
-    const { characters, openCharacter} = props;
+  const getCharacters = (): ReactNode => {
+    const {characters, openCharacter} = props;
 
     if (!Object.keys(characters).length) return <ListItemText>Отсутствуют</ListItemText>
 
-    return characters?.map((character:any) => {
+    if (!Array.isArray(characters)) {
+      const character = characters;
       return (
-        <ListItem button key={character.id} onClick={()=>openCharacter(character.id)}>
-          <ListItemText primary={character.name} />
+        <ListItem button key={character.id} onClick={() => openCharacter(character.id)}>
+          <ListItemText primary={character.name}/>
         </ListItem>
       )
-    })
+    } else {
+      return characters?.map((character: any) => {
+        return (
+          <ListItem button key={character.id} onClick={() => openCharacter(character.id)}>
+            <ListItemText primary={character.name}/>
+          </ListItem>
+        )
+      })
+    }
   }
 
-  return(
+  return (
     <Container maxWidth="sm" className={classes.container}>
       <Grid
         container
@@ -101,7 +107,7 @@ function EpisodePageLayout(props: EpisodePageLayoutProps): ReactElement {
         </Grid>
       </Grid>
 
-      <Grid container  sm={12}>
+      <Grid container sm={12}>
         <Grid container direction="column" item>
           <Typography gutterBottom variant="h4" component="h2">
             Characters

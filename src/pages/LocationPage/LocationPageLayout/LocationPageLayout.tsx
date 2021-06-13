@@ -1,4 +1,4 @@
-import React, {ReactElement} from 'react';
+import React, {ReactElement, ReactNode} from 'react';
 import blue from "@material-ui/core/colors/blue";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -44,27 +44,38 @@ const useStyles = makeStyles((theme: Theme) =>
 interface LocationPageLayoutProps {
   data: any,
   residents: any,
-  openResident(id:number): void,
+
+  openResident(id: number): void,
 }
 
-function LocationPageLayout(props:LocationPageLayoutProps) {
+function LocationPageLayout(props: LocationPageLayoutProps) {
   const classes = useStyles();
   const {data} = props;
 
-  const getResidents = (): ReactElement => {
-    const { residents, openResident} = props;
+  const getResidents = (): ReactNode => {
+    const {residents, openResident} = props;
 
     if (!Object.keys(residents).length) return <ListItemText>Отсутствуют</ListItemText>
 
-    return residents?.map((resident:any) => {
+    if (!Array.isArray(residents)) {
+      let resident = residents;
       return (
-        <ListItem button key={resident.id} onClick={()=> openResident(resident.id)}>
-          <ListItemText primary={resident.name} />
+        <ListItem button key={resident.id} onClick={() => openResident(resident.id)}>
+          <ListItemText primary={resident.name}/>
         </ListItem>
       )
-    })
+    } else {
+      return residents?.map((resident: any) => {
+        return (
+          <ListItem button key={resident.id} onClick={() => openResident(resident.id)}>
+            <ListItemText primary={resident.name}/>
+          </ListItem>
+        )
+      })
+    }
   }
-  return(
+
+  return (
     <Container maxWidth="sm" className={classes.container}>
       <Grid
         container

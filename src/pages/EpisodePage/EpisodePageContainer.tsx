@@ -1,12 +1,14 @@
 import React, {useState} from "react";
 import {EpisodePageLayout} from "./EpisodePageLayout";
 import {useQuery} from "react-query";
-import {useHistory} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import {getIdUrl} from '../../services/utils';
+import {LoadingComponent} from "../../components/LoadingComponent";
+import {ErrorComponent} from "../../components/Error";
 
 
 function EpisodePageContainer(props: any) {
-  const {episodeId} = props.match.params;
+  const {episodeId} = useParams<{ episodeId: string }>();
   const [characters, setCharacters] = useState<any>({});
   const history = useHistory();
 
@@ -27,21 +29,14 @@ function EpisodePageContainer(props: any) {
     {onSuccess: (data) => getCharacters(data)}
   )
 
-  if (isLoading) {
-    return <div>'Loading...'</div>
-  }
+  if (isLoading) return <LoadingComponent/>;
 
-  if (error) {
-    return <div>An error has occurred: + {error}</div>
-  }
+  if (error) return <ErrorComponent/>;
 
   const openCharacterPageHandler = (id:number):void => {
     history.push(`/character/${id}`);
   }
 
-
-  // console.log('EpisodeData', data)
-  // console.log('EpisodeCharacters', characters)
 
   return (
     <EpisodePageLayout
