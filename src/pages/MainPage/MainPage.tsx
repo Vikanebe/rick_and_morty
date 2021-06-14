@@ -12,10 +12,6 @@ import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import {Button} from '@material-ui/core';
 import {Input} from '@material-ui/core';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
 import {ErrorComponent} from '../../components/Error';
 import {LoadingComponent} from "../../components/LoadingComponent";
 
@@ -35,7 +31,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     card: {
       height: 340,
-      width: 280,
     },
     media: {
       height: 250,
@@ -199,22 +194,17 @@ function MainPage(): ReactElement {
               />
             </Grid>
             <Grid container item justify="center" sm={3}>
-              <FormControl variant="filled">
-                <InputLabel id="_statusSelect">Status</InputLabel>
-                <Select
-                  labelId="_statusSelect"
+                <select
                   id="_status"
                   name="_status"
-                  displayEmpty
                   onChange={formik.handleChange}
                   className={classes.select}
                 >
-                  <MenuItem value=" ">All</MenuItem>
-                  <MenuItem value="alive">Alive</MenuItem>
-                  <MenuItem value="dead">Dead</MenuItem>
-                  <MenuItem value="unknown">Unknown</MenuItem>
-                </Select>
-              </FormControl>
+                  <option value="">All</option>
+                  <option value="alive">Alive</option>
+                  <option value="dead">Dead</option>
+                  <option value="unknown">Unknown</option>
+                </select>
             </Grid>
             <Grid container justify="flex-end" item sm={3}>
               <Button

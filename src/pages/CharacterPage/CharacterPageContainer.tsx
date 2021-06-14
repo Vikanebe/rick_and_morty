@@ -35,6 +35,7 @@ function CharacterPageContainer(props: any): ReactElement {
   }
 
   const openLocationPageHandler = (url: string): void => {
+    console.log(url);
     history.push(`/location/${getIdUrl(url)}`)
   }
 
