@@ -1,6 +1,6 @@
-import React, {ReactElement, ReactNode} from 'react';
+import React, {ReactNode} from 'react';
 import blue from "@material-ui/core/colors/blue";
-import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
+import {createStyles, makeStyles} from "@material-ui/core/styles";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItem from "@material-ui/core/ListItem";
 import Container from "@material-ui/core/Container";
@@ -11,12 +11,9 @@ import List from "@material-ui/core/List";
 
 const primary = blue[100];
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     container: {
-      // justifyContent: 'center',
-      // display: 'flex',
-      // flexDirection:'column',
       marginTop: 40,
       marginBottom: 20,
       backgroundColor: primary,
@@ -42,10 +39,9 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface LocationPageLayoutProps {
-  data: any,
-  residents: any,
-
-  openResident(id: number): void,
+  data: ILocation,
+  characters: Array<ICharacter> | ICharacter,
+  openCharacter(id: number): void,
 }
 
 function LocationPageLayout(props: LocationPageLayoutProps) {
@@ -53,22 +49,22 @@ function LocationPageLayout(props: LocationPageLayoutProps) {
   const {data} = props;
 
   const getResidents = (): ReactNode => {
-    const {residents, openResident} = props;
+    const {characters, openCharacter} = props;
 
-    if (!Object.keys(residents).length) return <ListItemText>Отсутствуют</ListItemText>
+    if (!Object.keys(characters).length) return <ListItemText>Отсутствуют</ListItemText>
 
-    if (!Array.isArray(residents)) {
-      let resident = residents;
+    if (!Array.isArray(characters)) {
+      let character = characters;
       return (
-        <ListItem button key={resident.id} onClick={() => openResident(resident.id)}>
-          <ListItemText primary={resident.name}/>
+        <ListItem button key={character.id} onClick={() => openCharacter(character.id)}>
+          <ListItemText primary={character.name}/>
         </ListItem>
       )
     } else {
-      return residents?.map((resident: any) => {
+      return characters?.map((character) => {
         return (
-          <ListItem button key={resident.id} onClick={() => openResident(resident.id)}>
-            <ListItemText primary={resident.name}/>
+          <ListItem button key={character.id} onClick={() => openCharacter(character.id)}>
+            <ListItemText primary={character.name}/>
           </ListItem>
         )
       })

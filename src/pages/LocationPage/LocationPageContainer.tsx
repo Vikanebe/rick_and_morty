@@ -4,20 +4,21 @@ import {useQuery} from "react-query";
 import {getIdUrl} from "../../services/utils";
 import {useHistory, useParams} from "react-router-dom";
 import {ErrorComponent} from "../../components/Error";
+import {LoadingComponent} from "../../components/LoadingComponent";
 
-function LocationPageContainer(props:any ) {
+function LocationPageContainer() {
   const {locationId} = useParams<{ locationId: string }>();
   const history = useHistory();
-  const [residents, setResidents] = useState<any>({})
+  const [characters, setCharacters] = useState<Array<ICharacter> | ICharacter>([])
 
-  const getResidents = (residentData: any ): void => {
-    const residentsId:string = residentData.residents.map((e:string) => {
+  const getCharacters = (locationData: ILocation ): void => {
+    const characterId:string = locationData.residents.map((e:string) => {
       return (getIdUrl(e))
     }).join(', ')
 
-    fetch(`https://rickandmortyapi.com/api/character/${residentsId}`).then(res =>
+    fetch(`https://rickandmortyapi.com/api/character/${characterId}`).then(res =>
       res.json()
-    ).then((data) => setResidents(data))
+    ).then((data) => setCharacters(data))
   }
 
   const {isLoading, error, data} = useQuery('location', () =>
@@ -25,14 +26,14 @@ function LocationPageContainer(props:any ) {
           return res.json()
         }
       ),
-    {onSuccess: (data) => getResidents(data)}
+    {onSuccess: (data) => getCharacters(data)}
   )
 
-  const openResidentPageHandler = (id:number):void => {
+  const openCharacterPageHandler = (id:number):void => {
     history.push(`/character/${id}`);
   }
 
-  if (isLoading) return <LocationPageContainer/>;
+  if (isLoading) return <LoadingComponent/>;
 
   if (error) return <ErrorComponent/>;
 
@@ -40,8 +41,8 @@ function LocationPageContainer(props:any ) {
   return (
     <LocationPageLayout
       data={data}
-      residents={residents}
-      openResident={openResidentPageHandler}
+      characters={characters}
+      openCharacter={openCharacterPageHandler}
     />
   );
 }

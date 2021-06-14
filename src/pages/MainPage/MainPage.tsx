@@ -65,8 +65,8 @@ function MainPage(): ReactElement {
   const classes = useStyles();
   const history = useHistory();
   const {page} = useParams<{ page: string }>();
-  const [name, setName] = useState("");
-  const [filterStatus, setFilterStatus] = useState("");
+  const [name, setName] = useState<string>("");
+  const [filterStatus, setFilterStatus] = useState<string>("");
 
   const formik = useFormik({
     initialValues: {

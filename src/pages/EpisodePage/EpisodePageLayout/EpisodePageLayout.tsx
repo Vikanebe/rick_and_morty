@@ -3,7 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import List from "@material-ui/core/List";
-import {makeStyles, createStyles, Theme} from '@material-ui/core/styles';
+import {makeStyles, createStyles} from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Container from '@material-ui/core/Container';
@@ -12,7 +12,7 @@ import blue from '@material-ui/core/colors/blue';
 
 const primary = blue[100];
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     container: {
       marginTop: 40,
@@ -41,8 +41,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface EpisodePageLayoutProps {
-  data: any,
-  characters: any,
+  data: IEpisode,
+  characters: Array<ICharacter> | ICharacter,
   openCharacter(id: number): void,
 }
 
@@ -63,7 +63,7 @@ function EpisodePageLayout(props: EpisodePageLayoutProps): ReactElement {
         </ListItem>
       )
     } else {
-      return characters?.map((character: any) => {
+      return characters?.map((character) => {
         return (
           <ListItem button key={character.id} onClick={() => openCharacter(character.id)}>
             <ListItemText primary={character.name}/>

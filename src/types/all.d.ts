@@ -7,7 +7,7 @@ interface IInfo {
 }
 
 interface IMainData {
-  info: Object<IInfo>,
+  info: IInfo,
   results: Array<ICharacter>,
 }
 
@@ -19,21 +19,18 @@ interface ICharacterParam {
   url: string,
 }
 
-interface IArrayOfUrl {
-  url: string,
-}
 
 interface ICharacter {
-  id: string,
+  id: number,
   name: string,
   status: string,
   species: string,
   type: string,
   gender: string,
-  origin: Object<ICharacterParam>,
-  location: Object<ICharacterParam>,
+  origin: ICharacterParam,
+  location: ICharacterParam,
   image: string,
-  episode: Array<IArrayOfUrl>,
+  episode: Array<string>,
   url: string,
   created: string,
 }
@@ -42,11 +39,11 @@ interface ICharacter {
 //////////////////// episodes //////////////////////
 
 interface IEpisode {
-  id: string,
+  id: number,
   name: string,
   air_date: string,
   episode: string,
-  characters: Array<IArrayOfUrl>,
+  characters: Array<string>,
   url: string,
   created: string,
 }
@@ -54,11 +51,11 @@ interface IEpisode {
 /////////////////// location ///////////////////////
 
 interface ILocation {
-  id: string,
+  id: number,
   name: string,
   type: string,
   dimension : string,
-  residents: Array<IArrayOfUrl>,
+  residents: Array<string>,
   url: string,
   created: string,
 }

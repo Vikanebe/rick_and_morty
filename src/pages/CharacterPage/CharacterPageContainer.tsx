@@ -7,12 +7,12 @@ import {LoadingComponent} from "../../components/LoadingComponent";
 import {ErrorComponent} from "../../components/Error";
 
 
-function CharacterPageContainer(props: any): ReactElement {
+function CharacterPageContainer(): ReactElement {
   const {characterId} = useParams<{ characterId: string }>();
-  const [episodes, setEpisodes] = useState<any>({});
+  const [episodes, setEpisodes] = useState<Array<IEpisode> | IEpisode>([]);
   const history = useHistory();
 
-  const getEpisodes = (characterData: any): void => {
+  const getEpisodes = (characterData: ICharacter): void => {
     const episodesId: string = characterData.episode.map((e: string) => {
       return (getIdUrl(e))
     }).join(', ')

@@ -49,18 +49,18 @@ const useStyles = makeStyles((theme: Theme) =>
 
 
 interface CharacterPageLayoutProps {
-  data: any,
-  episodes: any,
+  data: ICharacter,
+  episodes: Array<IEpisode> | IEpisode,
   openEpisode(id: number): void,
   openLocation(url: string): void,
 }
 
 function CharacterPageLayout(props: CharacterPageLayoutProps): ReactElement {
   const classes = useStyles();
-  const {data, openLocation} = props;
+  const {data, episodes, openLocation, openEpisode} = props;
 
   const getEpisodes = (): ReactNode => {
-    const {openEpisode, episodes} = props;
+
 
     if (!Object.keys(episodes).length) return <ListItemText>Отсутствуют</ListItemText>
 
@@ -72,13 +72,34 @@ function CharacterPageLayout(props: CharacterPageLayoutProps): ReactElement {
         </ListItem>
       )
     } else {
-       return episodes.map((episode: any) => {
+      return episodes.map((episode) => {
         return (
           <ListItem button key={episode.id} onClick={() => openEpisode(episode.id)}>
             <ListItemText primary={episode.name}/>
           </ListItem>
         )
       })
+    }
+  }
+
+  const getLocation = (name: string, url: string): ReactNode => {
+    if (name === 'unknown') {
+      return (
+        <Box className={classes.box}>
+          {name}
+        </Box>
+      )
+    } else {
+      return (
+        <Link
+          component="button"
+          color="primary"
+          onClick={() => openLocation(url)}
+          className={classes.link}
+        >
+          {name}
+        </Link>
+      )
     }
   }
 
@@ -131,14 +152,7 @@ function CharacterPageLayout(props: CharacterPageLayoutProps): ReactElement {
             Origin:
           </Box>
 
-          <Link
-            component="button"
-            color="primary"
-            onClick={() => openLocation(data.origin.url)}
-            className={classes.link}
-          >
-            {data.origin.name}
-          </Link>
+          {getLocation(data.origin.name, data.origin.url)}
         </Grid>
 
         <Grid container direction="row" alignItems="center" spacing={2}>
@@ -146,14 +160,7 @@ function CharacterPageLayout(props: CharacterPageLayoutProps): ReactElement {
             Location:
           </Box>
 
-          <Link
-            component="button"
-            color="primary"
-            onClick={() => openLocation(data.location.url)}
-            className={classes.link}
-          >
-            {data.location.name}
-          </Link>
+          {getLocation(data.location.name, data.location.url)}
         </Grid>
       </Grid>
 

@@ -7,9 +7,9 @@ import {LoadingComponent} from "../../components/LoadingComponent";
 import {ErrorComponent} from "../../components/Error";
 
 
-function EpisodePageContainer(props: any) {
+function EpisodePageContainer() {
   const {episodeId} = useParams<{ episodeId: string }>();
-  const [characters, setCharacters] = useState<any>({});
+  const [characters, setCharacters] = useState<Array<ICharacter> | ICharacter>([]);
   const history = useHistory();
 
   const getCharacters = (episodesData: any ): void => {
@@ -36,7 +36,6 @@ function EpisodePageContainer(props: any) {
   const openCharacterPageHandler = (id:number):void => {
     history.push(`/character/${id}`);
   }
-
 
   return (
     <EpisodePageLayout
