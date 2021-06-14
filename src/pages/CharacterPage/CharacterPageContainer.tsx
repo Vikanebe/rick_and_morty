@@ -24,6 +24,9 @@ function CharacterPageContainer(): ReactElement {
 
   const {isLoading, error, data} = useQuery('character', () =>
       fetch(`https://rickandmortyapi.com/api/character/${characterId}`).then(res => {
+          if (!res.ok) {
+            throw new Error('Network response was not ok')
+          }
           return res.json()
         }
       ),
@@ -35,14 +38,12 @@ function CharacterPageContainer(): ReactElement {
   }
 
   const openLocationPageHandler = (url: string): void => {
-    console.log(url);
     history.push(`/location/${getIdUrl(url)}`)
   }
 
   if (isLoading) return <LoadingComponent/>;
 
   if (error) return <ErrorComponent/>;
-
 
   return (
     <CharacterPageLayout

@@ -12,8 +12,8 @@ function EpisodePageContainer() {
   const [characters, setCharacters] = useState<Array<ICharacter> | ICharacter>([]);
   const history = useHistory();
 
-  const getCharacters = (episodesData: any ): void => {
-    const episodesId:string = episodesData.characters.map((e:string) => {
+  const getCharacters = (episodesData: any): void => {
+    const episodesId: string = episodesData.characters.map((e: string) => {
       return (getIdUrl(e))
     }).join(', ')
 
@@ -23,17 +23,23 @@ function EpisodePageContainer() {
   }
 
   const {isLoading, error, data} = useQuery('episode', () =>
-      fetch(`https://rickandmortyapi.com/api/episode/${episodeId}`).then(res =>
-        res.json()
+      fetch(`https://rickandmortyapi.com/api/episode/${episodeId}`).then(res => {
+          if (!res.ok) {
+            throw new Error('Network response was not ok')
+          }
+          return res.json()
+        }
       ),
-    {onSuccess: (data) => getCharacters(data)}
+    {
+      onSuccess: (data) => getCharacters(data)
+    }
   )
 
   if (isLoading) return <LoadingComponent/>;
 
   if (error) return <ErrorComponent/>;
 
-  const openCharacterPageHandler = (id:number):void => {
+  const openCharacterPageHandler = (id: number): void => {
     history.push(`/character/${id}`);
   }
 

@@ -1,7 +1,7 @@
 import React, {ReactElement, ReactNode, useState} from "react";
 import {useHistory, useParams} from "react-router-dom";
 import {useQuery} from "react-query";
-import {makeStyles, createStyles, Theme} from '@material-ui/core/styles';
+import {makeStyles, createStyles} from '@material-ui/core/styles';
 import {useFormik} from "formik";
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -15,7 +15,7 @@ import {Input} from '@material-ui/core';
 import {ErrorComponent} from '../../components/Error';
 import {LoadingComponent} from "../../components/LoadingComponent";
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     root: {
       marginTop: 20,
@@ -23,11 +23,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     flex: {
       flexGrow: 1,
-    },
-    paper: {
-      padding: theme.spacing(1),
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
     },
     card: {
       height: 340,
@@ -44,20 +39,6 @@ const useStyles = makeStyles((theme: Theme) =>
     typography: {
       textAlign: 'center',
     },
-    error: {
-      position: 'absolute',
-      margin: 0,
-      top: '50%',
-      left: '50%',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-
-
-      border: '1px solid',
-      borderColor: theme.palette.error.main,
-      borderRadius: '10px',
-      padding: '20px'
-    }
   }),
 );
 
@@ -85,7 +66,6 @@ function MainPage(): ReactElement {
     const statusParam = filterStatus ? `&status=${filterStatus}` : '';
     return fetch(`https://rickandmortyapi.com/api/character?page=${page}${nameParam}${statusParam}`).then(res => {
         if (!res.ok) {
-          console.log(res)
           throw new Error('Network response was not ok')
         }
         return res.json();

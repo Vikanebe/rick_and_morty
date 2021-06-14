@@ -11,25 +11,29 @@ function LocationPageContainer() {
   const history = useHistory();
   const [characters, setCharacters] = useState<Array<ICharacter> | ICharacter>([])
 
-  const getCharacters = (locationData: ILocation ): void => {
-    const characterId:string = locationData.residents.map((e:string) => {
+  const getCharacters = (locationData: ILocation): void => {
+    const characterId: string = locationData.residents.map((e: string) => {
       return (getIdUrl(e))
     }).join(', ')
 
-    fetch(`https://rickandmortyapi.com/api/character/${characterId}`).then(res =>
-      res.json()
+    fetch(`https://rickandmortyapi.com/api/character/${characterId}`).then(res => {
+        return res.json()
+      }
     ).then((data) => setCharacters(data))
   }
 
   const {isLoading, error, data} = useQuery('location', () =>
       fetch(`https://rickandmortyapi.com/api/location/${locationId}`).then(res => {
+          if (!res.ok) {
+            throw new Error('Network response was not ok')
+          }
           return res.json()
         }
       ),
     {onSuccess: (data) => getCharacters(data)}
   )
 
-  const openCharacterPageHandler = (id:number):void => {
+  const openCharacterPageHandler = (id: number): void => {
     history.push(`/character/${id}`);
   }
 
