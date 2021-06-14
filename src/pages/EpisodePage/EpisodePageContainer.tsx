@@ -13,11 +13,13 @@ function EpisodePageContainer() {
   const history = useHistory();
 
   const getCharacters = (episodesData: any): void => {
-    const episodesId: string = episodesData.characters.map((e: string) => {
+    const characterId: string = episodesData.characters.map((e: string) => {
       return (getIdUrl(e))
     }).join(', ')
 
-    fetch(`https://rickandmortyapi.com/api/character/${episodesId}`).then(res =>
+    if (characterId === '') return;
+
+    fetch(`https://rickandmortyapi.com/api/character/${characterId}`).then(res =>
       res.json()
     ).then((data) => setCharacters(data))
   }

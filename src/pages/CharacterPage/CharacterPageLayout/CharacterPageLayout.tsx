@@ -60,9 +60,7 @@ function CharacterPageLayout(props: CharacterPageLayoutProps): ReactElement {
   const {data, episodes, openLocation, openEpisode} = props;
 
   const getEpisodes = (): ReactNode => {
-
-
-    if (!Object.keys(episodes).length) return <ListItemText>Отсутствуют</ListItemText>
+    if (!Object.keys(episodes).length) return <ListItemText>Absent</ListItemText>
 
     if (!Array.isArray(episodes)) {
       const episode = episodes;

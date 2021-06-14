@@ -16,6 +16,8 @@ function LocationPageContainer() {
       return (getIdUrl(e))
     }).join(', ')
 
+    if (characterId === '') return ;
+
     fetch(`https://rickandmortyapi.com/api/character/${characterId}`).then(res => {
         return res.json()
       }

@@ -51,7 +51,7 @@ function LocationPageLayout(props: LocationPageLayoutProps) {
   const getResidents = (): ReactNode => {
     const {characters, openCharacter} = props;
 
-    if (!Object.keys(characters).length) return <ListItemText>Отсутствуют</ListItemText>
+    if (!Object.keys(characters).length ) return <ListItemText>Absent</ListItemText>
 
     if (!Array.isArray(characters)) {
       let character = characters;

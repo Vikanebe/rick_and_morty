@@ -17,6 +17,8 @@ function CharacterPageContainer(): ReactElement {
       return (getIdUrl(e))
     }).join(', ')
 
+    if (episodesId === '') return;
+
     fetch(`https://rickandmortyapi.com/api/episode/${episodesId}`).then(res =>
       res.json()
     ).then((data) => setEpisodes(data))

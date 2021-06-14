@@ -53,7 +53,7 @@ function EpisodePageLayout(props: EpisodePageLayoutProps): ReactElement {
   const getCharacters = (): ReactNode => {
     const {characters, openCharacter} = props;
 
-    if (!Object.keys(characters).length) return <ListItemText>Отсутствуют</ListItemText>
+    if (!Object.keys(characters).length) return <ListItemText>Absent</ListItemText>
 
     if (!Array.isArray(characters)) {
       const character = characters;
